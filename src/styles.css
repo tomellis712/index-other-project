@@ -78,7 +78,7 @@ body {
   margin-right: 40px;
   font-size: 0.6rem;
   cursor: pointer;
-  transition: all 0.8s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
 .button--customize{
@@ -92,7 +92,7 @@ body {
   margin-right: 40px;
   font-size: 0.6rem;
   cursor: pointer;
-  transition: all 0.8s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 .button--hero:hover{
   background: black;
@@ -107,6 +107,35 @@ body {
   padding: 10px 30px;
   margin-right: 40px;
   font-size: 0.6rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.button--hero:hover,
+.button--customize:hover,
+.button--footer:hover,
+.button--navbar:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.button--navbar:hover{
+  background: #F2CE6E;
+  color: black;
+}
+
+.button--hero:active,
+.button--customize:active,
+.button--footer:active,
+.button--navbar:active{
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+button:focus-visible,
+.button--colors:focus-visible{
+  outline: 2px solid #8a6810;
+  outline-offset: 4px;
 }
 
 .second{
@@ -160,7 +189,7 @@ footer{
   padding: 10px 30px;
   font-size: 0.6rem;
   cursor: pointer;
-  transition: all 0.8s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
 .button--footer:hover{
@@ -214,12 +243,12 @@ footer{
   padding: 0;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: all 0.8s ease;
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .button--colors:hover{
-  filter: drop-shadow(0 0 0.75rem rgba(28, 17, 52, 0.704));
-  transform: scale(1.5);
+  filter: drop-shadow(0 0 0.5rem rgba(28, 17, 52, 0.45));
+  transform: scale(1.12);
 }
 
 .yellow{
@@ -276,5 +305,30 @@ footer{
   .section--third--container {
     width: 220px;
     margin-left: 7%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .button--hero:hover,
+  .button--customize:hover,
+  .button--footer:hover,
+  .button--navbar:hover,
+  .button--hero:active,
+  .button--customize:active,
+  .button--footer:active,
+  .button--navbar:active,
+  .button--colors:hover {
+    transform: none;
+    box-shadow: none;
+    filter: none;
   }
 }
