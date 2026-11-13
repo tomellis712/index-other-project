@@ -51,6 +51,9 @@ async function setupViewer() {
   });
 
   const isMobile = mobileAndTabletCheck();
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
   // console.log(isMobile)
 
   const manager = await viewer.addPlugin(AssetManagerPlugin);
@@ -194,6 +197,72 @@ async function setupViewer() {
   }
 
   setupScrollanimation();
+  setupContentAnimations();
+
+  function setupContentAnimations() {
+    if (prefersReducedMotion) return;
+
+    gsap
+      .timeline({ defaults: { ease: "power3.out" } })
+      .fromTo(
+        ".nav--bar",
+        { y: -18, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.65 }
+      )
+      .fromTo(
+        ".section--one--container > *",
+        { y: 24, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.75, stagger: 0.12 },
+        "-=0.25"
+      );
+
+    gsap.fromTo(
+      ".section--two--container",
+      { y: 32, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.85,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".second",
+          start: "top 70%",
+          once: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".section--third--container",
+      { y: 32, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.85,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".third",
+          start: "top 70%",
+          once: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".custom--bg",
+      { autoAlpha: 0 },
+      {
+        autoAlpha: 1,
+        duration: 1.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".second",
+          start: "top 70%",
+          once: true,
+        },
+      }
+    );
+  }
 
   // WEBGI UPDATE
   let needsUpdate = true;
@@ -261,8 +330,24 @@ async function setupViewer() {
     });
 
   function enableControlers() {
-    exitButton.style.display = "block";
-    customizerInterface.style.display = "block";
+    if (prefersReducedMotion) {
+      exitButton.style.display = "block";
+      customizerInterface.style.display = "block";
+      viewer.scene.activeCamera.setCameraOptions({ controlsEnabled: true });
+      return;
+    }
+
+    gsap.set([exitButton, customizerInterface], { display: "block" });
+    gsap.fromTo(
+      exitButton,
+      { y: 12, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      customizerInterface,
+      { x: -16, autoAlpha: 0 },
+      { x: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }
+    );
     viewer.scene.activeCamera.setCameraOptions({ controlsEnabled: true });
   }
 
